@@ -1,0 +1,10 @@
+{
+  "name": "hw.i.p",
+  "tagline": "hardware in progress",
+  "url": "https://hwip.vejas.zip",
+  "description": "Hardware built one piece at a time — enclosures, instruments and mechanisms, made on one bench. Finished work, and how to order a piece.",
+  "socials": [
+    { "label": "Instagram — the builds", "handle": "@hw.i.p", "href": "https://instagram.com/hw.i.p" },
+    { "label": "Instagram — personal", "handle": "@vejas.srcks", "href": "https://instagram.com/vejas.srcks" }
+  ]
+}

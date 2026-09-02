@@ -1,0 +1,34 @@
+:root {
+  --font-sans: "Instrument Sans", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --font-display: var(--font-sans);
+  --font-body: var(--font-sans);
+
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  /* Display — tight leading, negative tracking */
+  --text-display-1: 700 72px/0.95 var(--font-display);
+  --text-display-2: 700 56px/1.0 var(--font-display);
+  --text-display-3: 700 40px/1.05 var(--font-display);
+  --tracking-display: -0.02em;
+
+  /* Headings */
+  --text-h1: 700 26px/1.15 var(--font-display);
+  --text-h2: 600 20px/1.2 var(--font-display);
+
+  /* Body */
+  --text-body-lg: 400 18px/1.55 var(--font-body);
+  --text-body: 400 16px/1.6 var(--font-body);
+  --text-body-sm: 400 14px/1.6 var(--font-body);
+
+  /* Label — uppercase, wide tracking. The system's signature voice. */
+  --text-label: 600 12px/1.2 var(--font-display);
+  --tracking-label: 0.12em;
+  --text-label-lg: 600 16px/1.2 var(--font-display);
+
+  /* Data / specs */
+  --text-mono: 400 13px/1.5 var(--font-mono);
+}

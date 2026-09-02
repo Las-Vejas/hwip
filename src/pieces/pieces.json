@@ -1,0 +1,6 @@
+{
+  "layout": "layouts/piece.njk",
+  "tags": "piece",
+  "permalink": "/work/{{ page.fileSlug }}/",
+  "ogType": "article"
+}

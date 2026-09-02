@@ -1,0 +1,79 @@
+---
+layout: layouts/base.njk
+---
+<section class="wrap band band--tight">
+  <a class="back-link" href="/work/">&larr; All work</a>
+</section>
+
+{% if placeholder %}
+<section class="wrap" style="padding-bottom: var(--space-6);">
+  <p class="form-note mono" style="margin: 0;">
+    Placeholder entry. Photographs and final specification still to come.
+  </p>
+</section>
+{% endif %}
+
+<section class="wrap band" style="padding-top: 0;">
+  <div class="piece-head">
+    <div>
+      <span class="label">{{ label or "Piece" }}</span>
+      <h1 class="h1" style="margin-top: var(--space-3); font-size: 40px; line-height: 1.05;">{{ title }}</h1>
+      {% if summary %}<p class="lede" style="margin-top: var(--space-5); color: var(--text-secondary);">{{ summary }}</p>{% endif %}
+
+      <div class="tag-row" style="margin-top: var(--space-6);">
+        {#- Signal green appears at most once per surface: it is spent here, on status. -#}
+        {% if status == "finished" %}<span class="tag tag--signal">Finished</span>
+        {% elif status == "one-off" %}<span class="tag">One-off</span>
+        {% else %}<span class="tag tag--outline">In progress</span>{% endif %}
+        {% if madeToOrder %}<span class="tag tag--outline">Made to order</span>{% endif %}
+      </div>
+
+      {% if specs %}
+      <table class="spec-table">
+        <caption class="label" style="text-align: left; padding-bottom: var(--space-3);">Specification</caption>
+        <tbody>
+          {%- for spec in specs %}
+          <tr><th scope="row">{{ spec.label }}</th><td>{{ spec.value }}</td></tr>
+          {%- endfor %}
+          {%- if completed %}
+          <tr><th scope="row">Completed</th><td>{{ completed | monthYear }}</td></tr>
+          {%- endif %}
+        </tbody>
+      </table>
+      {% endif %}
+    </div>
+
+    <div class="piece-gallery">
+      {%- if photo %}
+      <img src="{{ photo }}" alt="{{ photoAlt or title }}" width="840" height="840">
+      {%- else %}
+      <div class="stripe-ph" style="aspect-ratio: 1;">{{ photoCaption or "bench photo" }}<br>replace with a real shot</div>
+      {%- endif %}
+    </div>
+  </div>
+</section>
+
+{% if content %}
+<hr class="rule rule--hair">
+<section class="wrap band">
+  <div class="section-head"><span class="label">Notes</span></div>
+  <div class="prose">{{ content | safe }}</div>
+</section>
+{% endif %}
+
+<hr class="rule">
+<section class="band band--invert">
+  <div class="wrap">
+    <span class="label label--on-dark" style="display: block; margin-bottom: var(--space-3);">Order</span>
+    <h2 class="h1" style="color: var(--white);">
+      {% if madeToOrder %}This one can be made again.{% else %}Want something along these lines?{% endif %}
+    </h2>
+    <p class="lede on-dark-body" style="margin-top: var(--space-4);">
+      {% if leadTime %}Current lead time is {{ leadTime }}.{% endif %}
+      Tell me the dimensions and what it has to do, and I will tell you whether I can build it.
+    </p>
+    <div class="btn-row">
+      <a class="btn btn--invert" href="/order/?piece={{ page.fileSlug }}">Ask about this piece</a>
+    </div>
+  </div>
+</section>

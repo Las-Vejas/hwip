@@ -1,0 +1,246 @@
+/* hw.i.p — site styles.
+   Tokens come from tokens/*.css. Nothing here invents a colour, size or
+   duration; everything below is composition. Zero radius, flush left,
+   2px rules between sections and 1px hairlines within them. */
+
+/* ---------- dark mode ---------- */
+/* Roles swap; the brand green band and the mark stay fixed in both themes. */
+:root { --stripe-a: var(--ink-200); --stripe-b: var(--ink-100); }
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --surface-page: var(--ink-800);
+    --surface-card: var(--ink-700);
+    --surface-invert: var(--ink-900);
+    --text-primary: var(--ink-100);
+    --text-secondary: var(--ink-300);
+    --text-muted: var(--ink-400);
+    --text-brand: var(--green-300);
+    --border-hairline: var(--ink-600);
+    --border-strong: var(--ink-300);
+    --brand-tint: var(--green-800);
+    --stripe-a: var(--ink-600);
+    --stripe-b: var(--ink-800);
+  }
+}
+
+/* ---------- base ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+img, svg { max-width: 100%; }
+img { display: block; height: auto; }
+
+/* The system is flat and flush left. Nothing is centred, nothing is justified. */
+h1, h2, h3 { text-wrap: balance; }
+
+.skip-link {
+  position: absolute; left: -9999px; top: 0; z-index: 10;
+  background: var(--surface-brand); color: var(--white);
+  padding: var(--space-3) var(--space-4);
+  font: var(--text-label); letter-spacing: var(--tracking-label); text-transform: uppercase;
+  border-bottom: none;
+}
+.skip-link:focus { left: 0; }
+
+/* ---------- layout ---------- */
+.wrap { max-width: var(--page-max); margin: 0 auto; padding-inline: var(--space-8); }
+.band { padding-block: var(--space-18); }
+.band--tight { padding-block: var(--space-12); }
+.band--brand { background: var(--surface-brand); color: var(--white); padding-block: var(--space-24); }
+.band--invert { background: var(--surface-invert); color: var(--white); }
+
+.rule { border: 0; border-top: var(--divider-weight) solid var(--border-strong); margin: 0; }
+.rule--hair { border-top: 1px solid var(--border-hairline); }
+
+/* ---------- type helpers ---------- */
+.label {
+  font: var(--text-label);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.label--on-dark { color: rgba(255, 255, 255, 0.68); }
+.section-head { margin-bottom: var(--space-8); }
+.section-head .label { display: block; margin-bottom: var(--space-3); }
+.display { font: var(--text-display-1); letter-spacing: var(--tracking-display); max-width: 18ch; }
+.h1 { font: var(--text-h1); letter-spacing: var(--tracking-display); }
+.h2 { font: var(--text-h2); letter-spacing: var(--tracking-display); }
+.lede { font: var(--text-body-lg); max-width: var(--measure); }
+.prose { max-width: var(--measure); color: var(--text-secondary); }
+.prose p { margin: 0 0 var(--space-4); }
+.prose p:last-child { margin-bottom: 0; }
+.mono { font: var(--text-mono); color: var(--text-muted); }
+.on-dark-body { color: rgba(255, 255, 255, 0.82); }
+
+/* ---------- buttons ---------- */
+/* Labels sit flush left even when the button is wider than its text. */
+.btn {
+  display: inline-flex; align-items: center; justify-content: flex-start;
+  gap: var(--space-2);
+  font: var(--text-label-lg); font-size: 15px; letter-spacing: 0.04em;
+  padding: var(--space-3) var(--space-5);
+  border: 2px solid transparent; border-radius: var(--radius);
+  text-decoration: none; cursor: pointer;
+  transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
+}
+.btn--primary { background: var(--brand); color: var(--text-on-brand); border-color: var(--brand); }
+.btn--primary:hover { background: var(--brand-hover); border-color: var(--brand-hover); color: var(--text-on-brand); }
+.btn--primary:active { background: var(--brand-pressed); border-color: var(--brand-pressed); }
+.btn--secondary { background: transparent; color: var(--text-brand); border-color: var(--border-brand); }
+.btn--secondary:hover { background: var(--brand-tint); color: var(--text-brand); }
+.btn--ghost { background: transparent; color: var(--text-primary); }
+.btn--ghost:hover { background: var(--ink-200); color: var(--text-primary); }
+.btn--invert { background: var(--white); color: var(--green-500); border-color: var(--white); }
+.btn--invert:hover { background: var(--green-100); color: var(--green-500); }
+.btn--on-dark.btn--ghost { color: var(--white); border-color: rgba(255, 255, 255, 0.4); }
+.btn--on-dark.btn--ghost:hover { background: rgba(255, 255, 255, 0.1); color: var(--white); }
+.btn[disabled] { opacity: 0.45; cursor: not-allowed; }
+.btn-row { display: flex; flex-wrap: wrap; gap: var(--space-3); margin-top: var(--space-8); }
+
+/* ---------- tags ---------- */
+.tag {
+  display: inline-block;
+  font: var(--text-label); letter-spacing: var(--tracking-label); text-transform: uppercase;
+  padding: var(--space-1) var(--space-2);
+  background: var(--ink-700); color: var(--white); border: 1px solid var(--ink-700);
+}
+.tag--outline { background: transparent; color: var(--text-secondary); border-color: var(--border-hairline); }
+/* Signal green: at most once per surface. Reserved for "this one is finished". */
+.tag--signal { background: var(--signal-500); color: var(--ink-700); border-color: var(--signal-500); }
+.tag-row { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+
+/* ---------- header / footer ---------- */
+.site-header {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: var(--space-6);
+  padding-block: var(--space-6) var(--space-4);
+}
+.brand-link { display: inline-flex; align-items: center; gap: var(--space-3); border-bottom: none; color: var(--text-primary); }
+.brand-link:hover { color: var(--text-primary); }
+.wordmark { font: var(--text-h2); letter-spacing: var(--tracking-display); }
+.site-nav { display: flex; gap: var(--space-6); }
+.site-nav a {
+  font: var(--text-label); letter-spacing: var(--tracking-label); text-transform: uppercase;
+  color: var(--text-secondary); border-bottom: none; padding-block: var(--space-1);
+}
+.site-nav a:hover { color: var(--text-brand); }
+.site-nav a[aria-current="page"] { color: var(--text-primary); border-bottom: 2px solid var(--border-strong); }
+
+.site-footer { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); padding-block: var(--space-8); }
+.site-footer a { border-bottom: none; color: var(--text-muted); font: var(--text-mono); }
+.site-footer a:hover { color: var(--text-brand); }
+.footer-links { display: flex; gap: var(--space-5); }
+
+/* ---------- piece grid ---------- */
+/* 2px gutters, so the grid reads as one ruled block rather than floating cards. */
+.piece-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--divider-weight);
+  background: var(--border-strong);
+  border: var(--divider-weight) solid var(--border-strong);
+}
+.piece-tile {
+  display: flex; flex-direction: column;
+  background: var(--surface-card);
+  border-bottom: none; color: var(--text-primary);
+  transition: background var(--transition-fast);
+}
+.piece-tile:hover { background: var(--brand-tint); color: var(--text-primary); }
+.piece-tile__media { aspect-ratio: 1; width: 100%; }
+.piece-tile__body { padding: var(--space-5); display: flex; flex-direction: column; gap: var(--space-2); flex: 1; }
+.piece-tile__title { font: var(--text-h2); letter-spacing: var(--tracking-display); }
+.piece-tile__meta { margin-top: auto; padding-top: var(--space-4); }
+
+/* ---------- piece page ---------- */
+.piece-head { display: grid; grid-template-columns: 1fr minmax(0, 420px); gap: var(--space-12); align-items: start; }
+.piece-gallery { display: grid; gap: var(--divider-weight); }
+.spec-table { width: 100%; border-collapse: collapse; margin-top: var(--space-6); border-top: 1px solid var(--border-hairline); }
+.spec-table th, .spec-table td { text-align: left; padding: var(--space-3) 0; border-bottom: 1px solid var(--border-hairline); vertical-align: top; }
+.spec-table th {
+  font: var(--text-label); letter-spacing: var(--tracking-label); text-transform: uppercase;
+  color: var(--text-muted); width: 40%; font-weight: 600;
+}
+/* Measurements, part numbers and dates are data — they get the mono face. */
+.spec-table td { font: var(--text-mono); color: var(--text-primary); }
+
+.back-link {
+  display: inline-flex; align-items: center; gap: var(--space-2);
+  font: var(--text-label); letter-spacing: var(--tracking-label); text-transform: uppercase;
+  border-bottom: none; color: var(--text-secondary);
+}
+.back-link:hover { color: var(--text-brand); }
+
+/* ---------- link rows ---------- */
+.link-rows { border: var(--divider-weight) solid var(--border-strong); }
+.link-row {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--space-4);
+  padding: var(--space-5) var(--space-6);
+  border-bottom: none; color: var(--text-primary);
+  transition: background var(--transition-fast);
+}
+.link-row + .link-row { border-top: 1px solid var(--border-hairline); }
+.link-row:hover { background: var(--brand-tint); color: var(--text-primary); }
+.link-row__handle { font: var(--text-h2); margin-top: var(--space-1); }
+
+/* ---------- forms ---------- */
+.form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-5); max-width: 720px; }
+.field { display: flex; flex-direction: column; gap: var(--space-2); }
+.field--full { grid-column: 1 / -1; }
+/* The submit sizes to its label rather than stretching the grid column. */
+.field--action { align-items: flex-start; gap: var(--space-3); }
+.field > label { font: var(--text-label); letter-spacing: var(--tracking-label); text-transform: uppercase; color: var(--text-secondary); }
+.field input, .field select, .field textarea {
+  font: var(--text-body); color: var(--text-primary);
+  background: var(--surface-card);
+  border: 2px solid var(--border-strong); border-radius: var(--radius);
+  padding: var(--space-3) var(--space-4);
+  width: 100%;
+  transition: border-color var(--transition-fast);
+}
+.field textarea { min-height: 160px; resize: vertical; }
+.field input:focus, .field select:focus, .field textarea:focus { border-color: var(--border-brand); }
+.field__hint { font: var(--text-body-sm); color: var(--text-muted); }
+.field__error { font: var(--text-body-sm); color: var(--text-primary); font-weight: 600; }
+/* Honeypot: a real person never sees this, a bot fills it in. */
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+.form-status { margin-top: var(--space-6); max-width: var(--measure); }
+.form-status[hidden] { display: none !important; }
+.form-note { border-left: var(--divider-weight) solid var(--border-strong); padding-left: var(--space-4); }
+
+/* ---------- placeholders ---------- */
+/* Striped box, clearly not a photograph. Replace with a real bench shot. */
+.stripe-ph {
+  background: repeating-linear-gradient(135deg, var(--stripe-a) 0 10px, var(--stripe-b) 10px 20px);
+  border: 1px solid var(--border-hairline);
+  display: flex; align-items: center; justify-content: center; text-align: center;
+  padding: var(--space-4);
+  font: var(--text-mono); color: var(--text-muted);
+}
+
+/* ---------- responsive ---------- */
+@media (max-width: 900px) {
+  .piece-head { grid-template-columns: 1fr; gap: var(--space-8); }
+}
+@media (max-width: 720px) {
+  .wrap { padding-inline: var(--space-5); }
+  .band { padding-block: var(--space-12); }
+  .band--brand { padding-block: var(--space-14); }
+  .display { font-size: 40px; max-width: none; }
+  .h1 { font-size: 22px; }
+  .site-header { flex-direction: column; align-items: flex-start; gap: var(--space-3); padding-block: var(--space-4); }
+  .site-nav { gap: var(--space-4); }
+  .btn-row .btn { width: 100%; justify-content: flex-start; }
+  .piece-grid { grid-template-columns: 1fr; }
+  .form-grid { grid-template-columns: 1fr; }
+  .link-row { padding: var(--space-4); }
+  .link-row__handle { font-size: 17px; }
+  .site-footer { flex-direction: column; align-items: flex-start; gap: var(--space-3); }
+}
+
+/* Motion is 120-180ms and never bounces or scales; honour the OS setting anyway. */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+}
