@@ -76,30 +76,39 @@ npm run db:init:local
 
 ## Deploying
 
-1. **Create the database** and paste its id into `wrangler.jsonc`:
+1. **Log in**, once per machine:
 
    ```sh
-   npx wrangler d1 create hwip-orders
+   npx wrangler login
+   ```
+
+2. **Create the database.** `--update-config` writes the new database id straight into
+   `wrangler.jsonc`, replacing the placeholder:
+
+   ```sh
+   npx wrangler d1 create hwip-orders --update-config
    npm run db:init          # creates the table on the remote database
    ```
 
-2. **Set where enquiries go.** `ORDER_TO_EMAIL` in `wrangler.jsonc` is your address.
+   Add `--location weur` (or `eeur`, `enam`, `wnam`, `apac`, `oc`) to put the data near you.
+
+3. **Set where enquiries go.** `ORDER_TO_EMAIL` in `wrangler.jsonc` is your address.
    `ORDER_FROM_EMAIL` must be on a domain verified with [Resend](https://resend.com).
 
-3. **Set the secrets:**
+4. **Set the secrets:**
 
    ```sh
    npx wrangler secret put RESEND_API_KEY   # optional — enables the notification email
    npx wrangler secret put IP_SALT          # any long random string
    ```
 
-4. **Deploy:**
+5. **Deploy:**
 
    ```sh
    npm run deploy
    ```
 
-5. **Point the domain.** Add `hwip.vejas.zip` as a custom domain on the Worker in the
+6. **Point the domain.** Add `hwip.vejas.zip` as a custom domain on the Worker in the
    Cloudflare dashboard, under Workers & Pages → hwip → Settings → Domains & Routes.
 
 ## How the enquiry form behaves
