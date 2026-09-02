@@ -7,7 +7,7 @@
   var button = document.getElementById("order-submit");
   if (!form || !status || !button) return;
 
-  // Deep link from a piece page: /order/?piece=hinged-enclosure
+  // Deep link from a piece page: /order/?piece=kaze
   var wanted = new URLSearchParams(window.location.search).get("piece");
   if (wanted) {
     var select = form.elements.piece;

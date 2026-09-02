@@ -28,6 +28,12 @@ layout: layouts/base.njk
         {% if madeToOrder %}<span class="tag tag--outline">Made to order</span>{% endif %}
       </div>
 
+      {% if repo %}
+      <p style="margin: var(--space-5) 0 0;">
+        <a href="{{ repo }}" target="_blank" rel="noreferrer">Board files and firmware on GitHub</a>
+      </p>
+      {% endif %}
+
       {% if specs %}
       <table class="spec-table">
         <caption class="label" style="text-align: left; padding-bottom: var(--space-3);">Specification</caption>
@@ -45,7 +51,10 @@ layout: layouts/base.njk
 
     <div class="piece-gallery">
       {%- if photo %}
-      <img src="{{ photo }}" alt="{{ photoAlt or title }}" width="840" height="840">
+      <img src="{{ photo }}" alt="{{ photoAlt or title }}" width="1200" height="630">
+      {%- for shot in gallery %}
+      <img src="{{ shot.src }}" alt="{{ shot.alt }}" width="1200" height="630" loading="lazy">
+      {%- endfor %}
       {%- else %}
       <div class="stripe-ph" style="aspect-ratio: 1;">{{ photoCaption or "bench photo" }}<br>replace with a real shot</div>
       {%- endif %}

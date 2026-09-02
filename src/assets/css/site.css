@@ -135,7 +135,7 @@ h1, h2, h3 { text-wrap: balance; }
 /* 2px gutters, so the grid reads as one ruled block rather than floating cards. */
 .piece-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: var(--divider-weight);
   background: var(--border-strong);
   border: var(--divider-weight) solid var(--border-strong);
@@ -147,7 +147,7 @@ h1, h2, h3 { text-wrap: balance; }
   transition: background var(--transition-fast);
 }
 .piece-tile:hover { background: var(--brand-tint); color: var(--text-primary); }
-.piece-tile__media { aspect-ratio: 1; width: 100%; }
+.piece-tile__media { aspect-ratio: 1; width: 100%; object-fit: cover; }
 .piece-tile__body { padding: var(--space-5); display: flex; flex-direction: column; gap: var(--space-2); flex: 1; }
 .piece-tile__title { font: var(--text-h2); letter-spacing: var(--tracking-display); }
 .piece-tile__meta { margin-top: auto; padding-top: var(--space-4); }

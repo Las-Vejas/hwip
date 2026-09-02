@@ -1,7 +1,7 @@
 ---
 layout: layouts/base.njk
 permalink: /
-description: Hardware built one piece at a time — enclosures, instruments and mechanisms, made on one bench. Finished work, and how to order a piece.
+description: Open hardware built one board at a time — ambient sensors, macropads and the firmware that drives them. Schematics, specifications and how to commission a piece.
 ---
 {% from "partials/piece-tile.njk" import tile %}
 
@@ -10,8 +10,8 @@ description: Hardware built one piece at a time — enclosures, instruments and 
     <span class="label label--on-dark" style="display: block; margin-bottom: var(--space-4);">Hardware in progress</span>
     <h1 class="display" style="color: var(--white);">Hardware, built one piece at a time.</h1>
     <p class="lede on-dark-body" style="margin-top: var(--space-6);">
-      Enclosures, instruments and mechanisms, made on one bench. Every piece here is finished, measured and
-      documented. Some of them can be built again for you.
+      Sensors, macropads and the boards underneath them, designed on one bench. Every piece here is measured,
+      documented, and open — schematics and firmware included.
     </p>
     <div class="btn-row">
       <a class="btn btn--invert" href="/work/">See the work</a>
@@ -24,7 +24,7 @@ description: Hardware built one piece at a time — enclosures, instruments and 
 <section class="wrap band">
   <div class="section-head">
     <span class="label">01 — selected work</span>
-    <h2 class="h1">Three recent pieces.</h2>
+    <h2 class="h1">What is on the bench.</h2>
   </div>
   <div class="piece-grid">
     {%- for piece in collections.featured %}
@@ -42,9 +42,9 @@ description: Hardware built one piece at a time — enclosures, instruments and 
   </div>
   <div class="prose">
     <p>
-      hw.i.p is one person and one bench. 3D printing, PCB layout, and the machining in between. Nothing here
-      is mass produced and nothing is designed to be — each piece is built for a specific job, measured, and
-      written down.
+      hw.i.p is one person and one bench. PCB layout in KiCad, firmware, and the assembly in between. Nothing
+      here is mass produced and nothing is designed to be — each board is built for a specific job, measured,
+      and written down.
     </p>
     <p>
       The process, including the parts that fail, goes on Instagram. This page is what survived it.

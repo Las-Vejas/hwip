@@ -1,5 +1,7 @@
 export default function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy({ "src/assets": "assets" });
+  // Browsers ask for /favicon.ico by convention, not by <link>.
+  eleventyConfig.addPassthroughCopy({ "src/assets/img/favicon.ico": "favicon.ico" });
   eleventyConfig.addWatchTarget("src/assets/");
 
   // Pieces marked `featured: true` lead the homepage; the rest fall in behind them.

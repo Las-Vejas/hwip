@@ -2,16 +2,17 @@
   "name": "hwip",
   "version": "1.0.0",
   "private": true,
-  "description": "hw.i.p — hardware in progress. Static showcase site with a Cloudflare Worker enquiry endpoint.",
+  "description": "hw.i.p \u2014 hardware in progress. Static showcase site with a Cloudflare Worker enquiry endpoint.",
   "type": "module",
   "scripts": {
-    "build": "eleventy",
+    "build": "npm run clean && eleventy",
     "watch": "eleventy --watch",
     "serve": "eleventy --serve",
     "dev": "npm run build && wrangler dev",
     "deploy": "npm run build && wrangler deploy",
     "db:init": "wrangler d1 execute hwip-orders --remote --file=./schema.sql",
-    "db:init:local": "wrangler d1 execute hwip-orders --local --file=./schema.sql"
+    "db:init:local": "wrangler d1 execute hwip-orders --local --file=./schema.sql",
+    "clean": "node -e \"require('fs').rmSync('_site',{recursive:true,force:true})\""
   },
   "devDependencies": {
     "@11ty/eleventy": "^3.1.6",
