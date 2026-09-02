@@ -14,7 +14,7 @@
 
   "observability": { "enabled": true },
 
-  // Run `npm run db:init` after creating the database, then paste its id here.
+  // The database exists; `npm run db:init` creates the table inside it (once).
   "d1_databases": [
     {
       "binding": "DB",
@@ -24,7 +24,7 @@
   ],
 
   "vars": {
-    // Where enquiry notifications are sent. Set this before going live.
+    // Where enquiry notifications are sent.
     "ORDER_TO_EMAIL": "contact@hwip.vejas.zip",
     // Must be an address on a domain you have verified with Resend.
     "ORDER_FROM_EMAIL": "orders@hwip.vejas.zip"

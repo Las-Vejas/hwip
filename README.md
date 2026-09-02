@@ -76,40 +76,66 @@ npm run db:init:local
 
 ## Deploying
 
-1. **Log in**, once per machine:
+The repository is connected to **Cloudflare Workers Builds**, which builds and deploys on
+every push. Its build configuration is:
 
-   ```sh
-   npx wrangler login
-   ```
+| | |
+|---|---|
+| Build command | `npm run build` |
+| Deploy command | `npx wrangler deploy` |
 
-2. **Create the database.** `--update-config` writes the new database id straight into
-   `wrangler.jsonc`, replacing the placeholder:
+Two things must exist before a build can succeed, and neither is created by the build itself.
 
-   ```sh
-   npx wrangler d1 create hwip-orders --update-config
-   npm run db:init          # creates the table on the remote database
-   ```
+### 1. The D1 database
 
-   Add `--location weur` (or `eeur`, `enam`, `wnam`, `apac`, `oc`) to put the data near you.
+`wrangler.jsonc` names the database `hwip-orders` and carries its id. Cloudflare validates
+that id when it accepts the Worker script — a missing or placeholder id fails the deploy with
+`binding DB of type d1 must have a valid database_id specified [code: 10021]`, after the
+static assets have already uploaded.
 
-3. **Set where enquiries go.** `ORDER_TO_EMAIL` in `wrangler.jsonc` is your address.
-   `ORDER_FROM_EMAIL` must be on a domain verified with [Resend](https://resend.com).
+Create it once, either in the dashboard (Storage & Databases → D1 → Create) or locally:
 
-4. **Set the secrets:**
+```sh
+npx wrangler login
+npx wrangler d1 create hwip-orders --update-config
+```
 
-   ```sh
-   npx wrangler secret put RESEND_API_KEY   # optional — enables the notification email
-   npx wrangler secret put IP_SALT          # any long random string
-   ```
+`--update-config` writes the new id into `wrangler.jsonc`. Commit that change — a D1 database
+id is not a secret.
 
-5. **Deploy:**
+### 2. The table
 
-   ```sh
-   npm run deploy
-   ```
+Creating the database does not create the table. Until it exists, the form deploys but every
+submission fails with "The enquiry could not be recorded."
 
-6. **Point the domain.** Add `hwip.vejas.zip` as a custom domain on the Worker in the
-   Cloudflare dashboard, under Workers & Pages → hwip → Settings → Domains & Routes.
+Run the schema once, either from the dashboard (open the database → Console, paste the
+contents of `schema.sql`, run it) or locally:
+
+```sh
+npm run db:init
+```
+
+### Then, for the notification email
+
+`ORDER_TO_EMAIL` in `wrangler.jsonc` is the address enquiries are sent to. `ORDER_FROM_EMAIL`
+must be on a domain verified with [Resend](https://resend.com). The API key is a secret, so it
+is set on the Worker rather than committed:
+
+```sh
+npx wrangler secret put RESEND_API_KEY   # optional — without it, enquiries are stored but not emailed
+npx wrangler secret put IP_SALT          # any long random string
+```
+
+Secrets set this way persist across deploys; they do not need setting again on each push.
+
+Finally, add `hwip.vejas.zip` as a custom domain on the Worker, under
+Workers & Pages → hwip → Settings → Domains & Routes.
+
+## Deploying from a laptop instead
+
+The prerequisites above are the same. Once they are done, `npm run deploy` builds and pushes
+in one step, bypassing the CI pipeline. Useful for a one-off; day to day, pushing to the
+branch is enough.
 
 ## How the enquiry form behaves
 
@@ -142,7 +168,7 @@ npx wrangler d1 execute hwip-orders --remote \
 ## Before going live
 
 - [ ] Replace the three placeholder pieces with real work and photographs
-- [ ] Set `ORDER_TO_EMAIL` and the Resend key, then send yourself a test enquiry
+- [x] ~~Set `ORDER_TO_EMAIL` and the Resend key~~ — done; a test enquiry sent and arrived
 - [ ] Confirm the lead times quoted on the piece pages are current
 - [ ] Consider a dedicated 1200×630 share image; link previews currently use the 1000×1000
       profile mark
