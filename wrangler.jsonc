@@ -14,12 +14,12 @@
 
   "observability": { "enabled": true },
 
-  // Run `npm run db:init` after creating the database, then paste its id here.
+  // The database exists; `npm run db:init` creates the table inside it (once).
   "d1_databases": [
     {
       "binding": "DB",
       "database_name": "hwip-orders",
-      "database_id": "PASTE_YOUR_D1_DATABASE_ID_HERE"
+      "database_id": "4d49c5ba-5737-4dcc-8ea3-91e81a2269c1"
     }
   ],
 
