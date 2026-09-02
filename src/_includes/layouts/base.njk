@@ -12,10 +12,10 @@
 <meta property="og:title" content="{% if title %}{{ title }} — {{ site.name }}{% else %}{{ site.name }} — {{ site.tagline }}{% endif %}">
 <meta property="og:description" content="{{ description or summary or site.description }}">
 <meta property="og:url" content="{{ site.url }}{{ page.url }}">
-<meta property="og:image" content="{{ site.url }}/assets/img/hw-ip-profile.png">
-<meta property="og:image:width" content="1000">
-<meta property="og:image:height" content="1000">
-<meta property="og:image:alt" content="The hw.i.p mark: a single unbroken white stroke on a dark green tile.">
+<meta property="og:image" content="{{ site.url }}{{ photo or '/assets/img/hw-ip-profile.png' }}">
+<meta property="og:image:width" content="{{ '1200' if photo else '1000' }}">
+<meta property="og:image:height" content="{{ '630' if photo else '1000' }}">
+<meta property="og:image:alt" content="{{ photoAlt or 'The hw.i.p mark: a single unbroken white stroke on a dark green tile.' }}">
 <meta name="twitter:card" content="summary_large_image">
 
 <meta name="theme-color" content="#0F4D33">
@@ -32,6 +32,29 @@
 <link rel="stylesheet" href="/assets/css/effects.css">
 <link rel="stylesheet" href="/assets/css/base.css">
 <link rel="stylesheet" href="/assets/css/site.css">
+
+<script type="application/ld+json">
+{% if ogType == "article" %}
+{
+  "@context": "https://schema.org",
+  "@type": "CreativeWork",
+  "name": {{ title | dump | safe }},
+  "description": {{ (summary or description or site.description) | dump | safe }},
+  "url": "{{ site.url }}{{ page.url }}",
+  {% if photo %}"image": "{{ site.url }}{{ photo }}",{% endif %}
+  {% if repo %}"codeRepository": {{ repo | dump | safe }},{% endif %}
+  "creator": { "@type": "Person", "name": "hw.i.p", "url": "{{ site.url }}" }
+}
+{% else %}
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "{{ site.name }}",
+  "description": {{ site.description | dump | safe }},
+  "url": "{{ site.url }}"
+}
+{% endif %}
+</script>
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>

@@ -2,17 +2,17 @@
 layout: layouts/base.njk
 permalink: /work/
 title: Work
-description: Every finished piece — enclosures, instruments and mechanisms built on one bench, with the specification for each.
+description: Every piece — sensors, macropads and the boards underneath them, with the specification and source for each.
 ---
 {% from "partials/piece-tile.njk" import tile %}
 
 <section class="wrap band">
   <div class="section-head">
     <span class="label">01 — work</span>
-    <h1 class="h1" style="font-size: 40px; line-height: 1.05;">Everything that got finished.</h1>
+    <h1 class="h1" style="font-size: 40px; line-height: 1.05;">Everything on the bench.</h1>
     <p class="lede prose" style="margin-top: var(--space-5);">
-      {{ collections.pieces | length }} pieces. Specification on each one — material, dimensions, and how many
-      attempts it took. The ones marked made to order can be built again.
+      {{ collections.pieces | length }} pieces. Specification on each one — board size, parts, what it costs to
+      build. Schematics and firmware are on GitHub.
     </p>
   </div>
 
