@@ -1,0 +1,19 @@
+{% macro tile(piece) %}
+<a class="piece-tile" href="{{ piece.url }}">
+  {%- if piece.data.photo %}
+  <img class="piece-tile__media" src="{{ piece.data.photo }}" alt="{{ piece.data.photoAlt or piece.data.title }}" width="600" height="600" loading="lazy">
+  {%- else %}
+  <div class="piece-tile__media stripe-ph">{{ piece.data.placeholderShort or "bench photo" }}</div>
+  {%- endif %}
+  <div class="piece-tile__body">
+    <span class="label">{{ piece.data.label }}</span>
+    <span class="piece-tile__title">{{ piece.data.title }}</span>
+    {%- if piece.data.summary %}
+    <span style="font: var(--text-body-sm); color: var(--text-secondary);">{{ piece.data.summary }}</span>
+    {%- endif %}
+    <span class="piece-tile__meta mono">
+      {{ piece.data.completed | monthYear }}{% if piece.data.madeToOrder %} · made to order{% endif %}
+    </span>
+  </div>
+</a>
+{% endmacro %}

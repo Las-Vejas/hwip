@@ -1,0 +1,55 @@
+:root {
+  /* Brand — Bench Green */
+  --green-100: #E4EFE9;
+  --green-200: #C2DCCF;
+  --green-300: #8FBFA6;
+  --green-400: #4E8E70;
+  --green-500: #0F4D33;
+  --green-600: #0C4029;
+  --green-700: #093020;
+  --green-800: #062217;
+  --green-900: #04150E;
+
+  /* Ink — neutral ramp */
+  --ink-100: #F3F2F2;
+  --ink-200: #E2E0DF;
+  --ink-300: #C6C3C1;
+  --ink-400: #8D8987;
+  --ink-500: #5C5856;
+  --ink-600: #3D3938;
+  --ink-700: #201E1D;
+  --ink-800: #141212;
+  --ink-900: #0A0909;
+
+  /* Signal — spot accent, used once per surface at most */
+  --signal-500: #79C000;
+  --signal-600: #67A400;
+
+  --white: #FFFFFF;
+
+  /* Semantic */
+  --brand: var(--green-500);
+  --brand-hover: var(--green-600);
+  --brand-pressed: var(--green-700);
+  --brand-tint: var(--green-100);
+  --brand-on-dark: var(--green-300);
+
+  --surface-page: var(--ink-100);
+  --surface-card: var(--white);
+  --surface-invert: var(--ink-700);
+  --surface-brand: var(--green-500);
+
+  --text-primary: var(--ink-700);
+  --text-secondary: var(--ink-500);
+  --text-muted: var(--ink-400);
+  --text-on-brand: var(--white);
+  --text-on-invert: var(--white);
+  --text-brand: var(--green-500);
+
+  --border-hairline: var(--ink-200);
+  --border-strong: var(--ink-700);
+  --border-brand: var(--green-500);
+  --divider-weight: 2px;
+
+  --focus-ring: var(--green-500);
+}

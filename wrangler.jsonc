@@ -1,0 +1,37 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "hwip",
+  "main": "worker/index.js",
+  "compatibility_date": "2026-09-02",
+
+  // Eleventy's output. Static files are served straight from the edge;
+  // only requests that match no file reach the Worker.
+  "assets": {
+    "directory": "./_site",
+    "binding": "ASSETS",
+    "not_found_handling": "404-page"
+  },
+
+  "observability": { "enabled": true },
+
+  // Run `npm run db:init` after creating the database, then paste its id here.
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "hwip-orders",
+      "database_id": "PASTE_YOUR_D1_DATABASE_ID_HERE"
+    }
+  ],
+
+  "vars": {
+    // Where enquiry notifications are sent. Set this before going live.
+    "ORDER_TO_EMAIL": "",
+    // Must be an address on a domain you have verified with Resend.
+    "ORDER_FROM_EMAIL": "orders@hwip.vejas.zip"
+  }
+
+  // Secrets are NOT set here. Use `wrangler secret put <NAME>`:
+  //   RESEND_API_KEY        optional — enables email notification
+  //   IP_SALT               recommended — salt for the rate-limit IP hash
+  //   TURNSTILE_SECRET_KEY  optional — enables Turnstile verification
+}

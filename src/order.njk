@@ -1,0 +1,73 @@
+---
+layout: layouts/base.njk
+permalink: /order/
+title: Order a piece
+description: Commission a piece — send the dimensions and what it has to do, and you will get an answer on whether it can be built.
+---
+<section class="wrap band">
+  <div class="section-head">
+    <span class="label">01 — order</span>
+    <h1 class="h1" style="font-size: 40px; line-height: 1.05;">Tell me what it has to do.</h1>
+    <p class="lede prose" style="margin-top: var(--space-5);">
+      This is an enquiry, not a checkout. Nothing is charged here and nothing is committed. Send the
+      dimensions and the job, and you get back an honest answer on whether I can build it, roughly how long
+      it would take, and what it would cost.
+    </p>
+  </div>
+
+  <p class="form-note prose mono" style="margin-bottom: var(--space-10);">
+    Replies usually take 2 to 3 days. If a piece is outside what one person and one bench can do, I will say so.
+  </p>
+
+  <form id="order-form" class="form-grid" method="post" action="/api/order" novalidate>
+    <div class="field">
+      <label for="name">Your name</label>
+      <input id="name" name="name" type="text" required autocomplete="name" maxlength="120">
+    </div>
+    <div class="field">
+      <label for="email">Email</label>
+      <input id="email" name="email" type="email" required autocomplete="email" maxlength="200">
+    </div>
+
+    <div class="field field--full">
+      <label for="piece">Which piece</label>
+      <select id="piece" name="piece">
+        <option value="">Something new</option>
+        {%- for piece in collections.pieces %}
+        <option value="{{ piece.fileSlug }}">{{ piece.data.title }}{% if not piece.data.madeToOrder %} — not normally made to order{% endif %}</option>
+        {%- endfor %}
+      </select>
+      <span class="field__hint">Pick the closest thing, or leave it as something new.</span>
+    </div>
+
+    <div class="field field--full">
+      <label for="message">What it has to do</label>
+      <textarea id="message" name="message" required maxlength="4000"
+        placeholder="What it holds, where it mounts, what it has to survive. Dimensions in mm if you have them."></textarea>
+      <span class="field__hint">Numbers help more than adjectives. 4000 characters maximum.</span>
+    </div>
+
+    <div class="field">
+      <label for="deadline">Needed by <span style="text-transform: none; letter-spacing: 0;">(optional)</span></label>
+      <input id="deadline" name="deadline" type="text" maxlength="120" placeholder="No rush">
+    </div>
+    <div class="field">
+      <label for="budget">Budget <span style="text-transform: none; letter-spacing: 0;">(optional)</span></label>
+      <input id="budget" name="budget" type="text" maxlength="120" placeholder="A range is fine">
+    </div>
+
+    {#- Honeypot. Hidden from people, filled in by bots. -#}
+    <div class="hp" aria-hidden="true">
+      <label for="company">Company</label>
+      <input id="company" name="company" type="text" tabindex="-1" autocomplete="off">
+    </div>
+
+    <div class="field field--full field--action">
+      <button class="btn btn--primary" type="submit" id="order-submit">Send enquiry</button>
+      <span class="field__hint">Your email is used to reply to this enquiry. Nothing else, no list, no sharing.</span>
+    </div>
+  </form>
+
+  <div id="order-status" class="form-status form-note" hidden role="status" aria-live="polite"></div>
+</section>
+<script src="/assets/js/order.js" defer></script>

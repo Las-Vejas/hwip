@@ -1,0 +1,10 @@
+<hr class="rule">
+<footer class="wrap site-footer">
+  <span class="mono">&copy; {{ site.name }}</span>
+  <div class="footer-links">
+    {%- for s in site.socials %}
+    <a href="{{ s.href }}" rel="me noreferrer" target="_blank">{{ s.handle }}</a>
+    {%- endfor %}
+    <a href="{{ site.url }}">hwip.vejas.zip</a>
+  </div>
+</footer>

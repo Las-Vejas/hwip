@@ -1,0 +1,16 @@
+<header class="wrap site-header">
+  <a class="brand-link" href="/">
+    <svg width="32" height="32" viewBox="0 0 100 100" role="img" aria-label="hw.i.p mark">
+      <rect width="100" height="100" fill="var(--surface-brand)"></rect>
+      <g fill="none" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M23,22 V76"></path>
+        <path d="M23,54 C23,46 27,44 34,44 C40,44 44.5,47.2 46,53 L52,76 L60,50 L68,76 L76,46"></path>
+      </g>
+    </svg>
+    <span class="wordmark">hw.i.p</span>
+  </a>
+  <nav class="site-nav" aria-label="Primary">
+    <a href="/work/"{% if '/work/' in page.url %} aria-current="page"{% endif %}>Work</a>
+    <a href="/order/"{% if page.url == '/order/' %} aria-current="page"{% endif %}>Order</a>
+  </nav>
+</header>

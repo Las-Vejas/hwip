@@ -1,0 +1,71 @@
+---
+layout: layouts/base.njk
+permalink: /
+description: Hardware built one piece at a time — enclosures, instruments and mechanisms, made on one bench. Finished work, and how to order a piece.
+---
+{% from "partials/piece-tile.njk" import tile %}
+
+<section class="band band--brand">
+  <div class="wrap">
+    <span class="label label--on-dark" style="display: block; margin-bottom: var(--space-4);">Hardware in progress</span>
+    <h1 class="display" style="color: var(--white);">Hardware, built one piece at a time.</h1>
+    <p class="lede on-dark-body" style="margin-top: var(--space-6);">
+      Enclosures, instruments and mechanisms, made on one bench. Every piece here is finished, measured and
+      documented. Some of them can be built again for you.
+    </p>
+    <div class="btn-row">
+      <a class="btn btn--invert" href="/work/">See the work</a>
+      <a class="btn btn--ghost btn--on-dark" href="/order/">Order a piece</a>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+<section class="wrap band">
+  <div class="section-head">
+    <span class="label">01 — selected work</span>
+    <h2 class="h1">Three recent pieces.</h2>
+  </div>
+  <div class="piece-grid">
+    {%- for piece in collections.featured %}
+    {{ tile(piece) }}
+    {%- endfor %}
+  </div>
+  <div class="btn-row"><a class="btn btn--secondary" href="/work/">All work</a></div>
+</section>
+
+<hr class="rule rule--hair">
+<section class="wrap band">
+  <div class="section-head">
+    <span class="label">02 — the bench</span>
+    <h2 class="h1">One maker, no team, no product line.</h2>
+  </div>
+  <div class="prose">
+    <p>
+      hw.i.p is one person and one bench. 3D printing, PCB layout, and the machining in between. Nothing here
+      is mass produced and nothing is designed to be — each piece is built for a specific job, measured, and
+      written down.
+    </p>
+    <p>
+      The process, including the parts that fail, goes on Instagram. This page is what survived it.
+    </p>
+  </div>
+  <div class="btn-row">
+    {%- for s in site.socials %}
+    <a class="btn btn--secondary" href="{{ s.href }}" target="_blank" rel="noreferrer">{{ s.handle }}</a>
+    {%- endfor %}
+  </div>
+</section>
+
+<hr class="rule">
+<section class="band band--invert">
+  <div class="wrap">
+    <span class="label label--on-dark" style="display: block; margin-bottom: var(--space-3);">03 — order</span>
+    <h2 class="h1" style="color: var(--white);">Commissions are open.</h2>
+    <p class="lede on-dark-body" style="margin-top: var(--space-4);">
+      One piece at a time, built to a brief. Send the dimensions and what it has to do — I will tell you
+      whether I can build it before either of us commits to anything.
+    </p>
+    <div class="btn-row"><a class="btn btn--invert" href="/order/">Start an enquiry</a></div>
+  </div>
+</section>
