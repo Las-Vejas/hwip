@@ -27,7 +27,15 @@ export default {
       if (request.method !== "POST") {
         return json({ error: "Method not allowed." }, 405, { Allow: "POST" });
       }
-      return handleOrder(request, env, ctx);
+      try {
+        return await handleOrder(request, env, ctx);
+      } catch (error) {
+        // A thrown error would otherwise become a Cloudflare 1101 page, which
+        // tells the sender nothing and looks like the site is broken.
+        console.error("unhandled error in handleOrder", error);
+        const wantsJson = (request.headers.get("Accept") || "").includes("application/json");
+        return fail(wantsJson, "The enquiry could not be recorded.", 500);
+      }
     }
 
     return env.ASSETS.fetch(request);
@@ -75,13 +83,20 @@ async function handleOrder(request, env, ctx) {
   const ipHash = await hashIp(clientIp(request), env.IP_SALT);
 
   if (ipHash) {
-    const recent = await env.DB.prepare(
-      "SELECT COUNT(*) AS n FROM orders WHERE ip_hash = ? AND created_at > datetime('now', '-1 hour')"
-    )
-      .bind(ipHash)
-      .first();
-    if (recent && recent.n >= RATE_LIMIT_PER_HOUR) {
-      return fail(wantsJson, "That is a lot of enquiries in one hour. Try again later.", 429);
+    // Fail open: if the limiter cannot be read, the insert below is still the
+    // gate, and it reports its own failure cleanly. Never drop a legitimate
+    // enquiry because the counter was unavailable.
+    try {
+      const recent = await env.DB.prepare(
+        "SELECT COUNT(*) AS n FROM orders WHERE ip_hash = ? AND created_at > datetime('now', '-1 hour')"
+      )
+        .bind(ipHash)
+        .first();
+      if (recent && recent.n >= RATE_LIMIT_PER_HOUR) {
+        return fail(wantsJson, "That is a lot of enquiries in one hour. Try again later.", 429);
+      }
+    } catch (error) {
+      console.error("rate limit check failed", error);
     }
   }
 
