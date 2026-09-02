@@ -25,7 +25,7 @@
 
   "vars": {
     // Where enquiry notifications are sent. Set this before going live.
-    "ORDER_TO_EMAIL": "",
+    "ORDER_TO_EMAIL": "contact@hwip.vejas.zip",
     // Must be an address on a domain you have verified with Resend.
     "ORDER_FROM_EMAIL": "orders@hwip.vejas.zip"
   }
