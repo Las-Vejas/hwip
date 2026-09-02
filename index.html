@@ -1,0 +1,291 @@
+<!-- @dsCard group="Site" viewport="1120x640" name="Homepage" subtitle="hwip.vejas.zip — hero, about, social, newsletter" -->
+<!-- @startingPoint section="Site" subtitle="Full homepage: hero, about, social links, newsletter" viewport="1120x640" -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>hw.i.p — hardware in progress</title>
+<link rel="stylesheet" href="../../styles.css">
+<link rel="icon" href="../../assets/logo-mark-green.svg">
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  html, body { background: var(--surface-page); margin: 0; }
+  a { color: var(--text-brand); }
+  a:hover { color: var(--brand-hover); }
+  .stripe-ph {
+    background: repeating-linear-gradient(135deg, var(--stripe-a) 0 10px, var(--stripe-b) 10px 20px);
+    border: 1px solid var(--border-hairline);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--text-muted); font: var(--text-mono); text-align: center; padding: var(--space-4);
+  }
+  :root { --stripe-a: var(--ink-200); --stripe-b: var(--ink-100); }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --surface-page: var(--ink-800);
+      --surface-card: var(--ink-700);
+      --surface-invert: var(--ink-900);
+      --text-primary: var(--ink-100);
+      --text-secondary: var(--ink-300);
+      --border-hairline: var(--ink-600);
+      --border-strong: var(--ink-300);
+      --stripe-a: var(--ink-600);
+      --stripe-b: var(--ink-800);
+      --brand-tint: var(--green-800);
+    }
+  }
+  @media (max-width: 720px) {
+    .hero-pad { padding: var(--space-14) var(--space-5) !important; }
+    .hero-title { font-size: 40px !important; max-width: none !important; }
+    .hero-actions { flex-direction: column !important; align-items: stretch !important; }
+    .hero-actions button { justify-content: center !important; text-align: center !important; }
+    .section-pad { padding: var(--space-10) var(--space-5) !important; }
+    .about-grid { grid-template-columns: 1fr !important; gap: var(--space-6) !important; }
+    .about-photo { max-width: 200px !important; }
+    .site-header { padding: var(--space-4) var(--space-5) !important; }
+    .site-header .day { display: none !important; }
+    .h1-resp { font-size: 22px !important; }
+    .social-row { padding: var(--space-4) !important; }
+    .social-handle { font-size: 17px !important; }
+    .newsletter-grid { grid-template-columns: 1fr !important; align-items: stretch !important; gap: var(--space-6) !important; }
+    .newsletter-form { flex-direction: column !important; align-items: stretch !important; }
+    .newsletter-form input { min-width: 0 !important; }
+    .site-footer { flex-direction: column !important; gap: var(--space-3) !important; text-align: center !important; }
+  }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/plain" id="app-src">
+// Local copies of components/brand/{LogoMark,Wordmark} and components/core/{Button,Input,Tag,Rule} —
+// this page ships standalone to hwip.vejas.zip, so it doesn't depend on the design-system bundle at runtime.
+function LogoMark({ variant = 'tile-green', size = 64, rounded = false, title = 'hw.i.p', style, ...rest }) {
+  const STEM = 'M23,22 V76', ARM = 'M23,54 C23,46 27,44 34,44 C40,44 44.5,47.2 46,53 L52,76 L60,50 L68,76 L76,46';
+  const tile = variant === 'tile-green' || variant === 'tile-ink';
+  const bg = variant === 'tile-green' ? 'var(--green-500)' : variant === 'tile-ink' ? 'var(--ink-700)' : 'none';
+  const stroke = variant === 'mark-green' ? 'var(--green-500)' : variant === 'mark-ink' ? 'var(--ink-700)' : 'var(--white)';
+  return (
+    <svg viewBox="0 0 100 100" width={size} height={size} role="img" aria-label={title}
+         style={{ display: 'block', borderRadius: rounded ? 'var(--radius-pill)' : 'var(--radius)', flex: 'none', ...style }} {...rest}>
+      {tile && <rect width="100" height="100" fill={bg} />}
+      <g fill="none" stroke={stroke} strokeWidth="8" strokeLinecap="round" strokeLinejoin="round">
+        <path d={STEM} /><path d={ARM} />
+      </g>
+    </svg>
+  );
+}
+function Wordmark({ tagline, size = 40, onDark = false, style, ...rest }) {
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-4)', ...style }} {...rest}>
+      <LogoMark variant={onDark ? 'mark-white' : 'tile-green'} size={size} />
+      <div>
+        <div style={{ font: 'var(--text-h1)', fontSize: Math.round(size * 0.42), letterSpacing: 'var(--tracking-display)',
+                      color: onDark ? 'var(--text-on-invert)' : 'var(--text-primary)' }}>hw.i.p</div>
+        {tagline && <div style={{ font: 'var(--text-body-sm)', color: onDark ? 'rgba(255,255,255,0.7)' : 'var(--text-secondary)', marginTop: 2 }}>{tagline}</div>}
+      </div>
+    </div>
+  );
+}
+function Button({ variant = 'primary', size = 'md', block = false, disabled = false, children, style, ...rest }) {
+  const pad = size === 'sm' ? '8px 14px' : size === 'lg' ? '16px 24px' : '12px 20px';
+  const fs = size === 'sm' ? 13 : size === 'lg' ? 17 : 15;
+  const base = { font: 'var(--text-label-lg)', fontSize: fs, letterSpacing: '0.04em', padding: pad, borderRadius: 'var(--radius)',
+    border: '2px solid transparent', textAlign: 'left', display: block ? 'flex' : 'inline-flex', width: block ? '100%' : 'auto',
+    alignItems: 'center', justifyContent: 'flex-start', gap: 'var(--space-2)', cursor: disabled ? 'not-allowed' : 'pointer',
+    opacity: disabled ? 0.45 : 1, transition: 'background 150ms, color 150ms, border-color 150ms' };
+  const variants = {
+    primary: { background: 'var(--brand)', color: 'var(--text-on-brand)', borderColor: 'var(--brand)' },
+    secondary: { background: 'transparent', color: 'var(--text-brand)', borderColor: 'var(--border-brand)' },
+    ghost: { background: 'transparent', color: 'var(--text-primary)', borderColor: 'transparent' },
+    invert: { background: 'var(--white)', color: 'var(--green-500)', borderColor: 'var(--white)' },
+  };
+  const [hover, setHover] = React.useState(false);
+  const hovers = {
+    primary: { background: 'var(--brand-hover)', borderColor: 'var(--brand-hover)' },
+    secondary: { background: 'var(--brand-tint)' }, ghost: { background: 'var(--ink-200)' }, invert: { background: 'var(--green-100)' },
+  };
+  return (
+    <button disabled={disabled} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}
+            style={{ ...base, ...variants[variant], ...(hover && !disabled ? hovers[variant] : null), ...style }} {...rest}>
+      {children}
+    </button>
+  );
+}
+function Input({ label, hint, invalid = false, style, ...rest }) {
+  return (
+    <label style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}>
+      {label && <span style={{ font: 'var(--text-label)', letterSpacing: 'var(--tracking-label)', textTransform: 'uppercase', color: 'var(--text-secondary)' }}>{label}</span>}
+      <input style={{ font: 'var(--text-body)', color: 'var(--text-primary)', background: 'var(--surface-card)',
+        border: `2px solid ${invalid ? 'var(--signal-600)' : 'var(--border-strong)'}`, borderRadius: 'var(--radius)', padding: '11px 13px', outline: 'none', ...style }} {...rest} />
+      {hint && <span style={{ font: 'var(--text-body-sm)', color: 'var(--text-muted)' }}>{hint}</span>}
+    </label>
+  );
+}
+function Tag({ tone = 'brand', children, style, ...rest }) {
+  const tones = {
+    brand: { background: 'var(--green-500)', color: 'var(--white)', border: '1px solid var(--green-500)' },
+    tint: { background: 'var(--green-100)', color: 'var(--green-700)', border: '1px solid var(--green-200)' },
+    neutral: { background: 'var(--ink-200)', color: 'var(--ink-700)', border: '1px solid var(--ink-200)' },
+    outline: { background: 'transparent', color: 'var(--text-primary)', border: '1px solid var(--border-strong)' },
+    signal: { background: 'var(--signal-500)', color: 'var(--ink-900)', border: '1px solid var(--signal-500)' },
+  };
+  return (
+    <span style={{ font: 'var(--text-label)', letterSpacing: 'var(--tracking-label)', textTransform: 'uppercase', padding: '5px 9px',
+                   borderRadius: 'var(--radius)', display: 'inline-block', whiteSpace: 'nowrap', ...tones[tone], ...style }} {...rest}>
+      {children}
+    </span>
+  );
+}
+function Rule({ weight = 'strong', tone = 'ink', style, ...rest }) {
+  const color = tone === 'brand' ? 'var(--border-brand)' : tone === 'light' ? 'var(--border-hairline)' : 'var(--border-strong)';
+  return <hr style={{ border: 0, borderTop: `${weight === 'strong' ? 'var(--divider-weight)' : '1px'} solid ${color}`, margin: 0, ...style }} {...rest} />;
+}
+
+function Icon({ name, size = 16 }) {
+  const ref = React.useRef(null);
+  React.useEffect(() => { if (window.lucide) window.lucide.createIcons({ nodes: [ref.current] }); }, []);
+  return <i ref={ref} data-lucide={name} style={{ width: size, height: size }} />;
+}
+
+const SOCIALS = [
+  { label: 'Instagram — builds', handle: '@hw.i.p', href: 'https://instagram.com/hw.i.p' },
+  { label: 'Instagram — personal', handle: '@vejas.srcks', href: 'https://instagram.com/vejas.srcks' },
+];
+
+function App() {
+  const [email, setEmail] = React.useState('');
+  const [sent, setSent] = React.useState(false);
+
+  return (
+    <div>
+      {/* header */}
+      <header className="site-header" style={{ maxWidth: 'var(--page-max)', margin: '0 auto', padding: 'var(--space-6) var(--space-8) var(--space-4)',
+                        display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <Wordmark size={32} />
+        <div className="day" style={{ font: 'var(--text-mono)', color: 'var(--text-muted)' }}>Day 12</div>
+      </header>
+      <Rule tone="ink" />
+
+      {/* hero — full-bleed green field */}
+      <section className="hero-pad" style={{ background: 'var(--surface-brand)', padding: 'var(--space-24) var(--space-8)' }}>
+        <div style={{ maxWidth: 'var(--page-max)', margin: '0 auto' }}>
+          <div style={{ font: 'var(--text-label)', letterSpacing: 'var(--tracking-label)', textTransform: 'uppercase',
+                        color: 'rgba(255,255,255,0.68)', marginBottom: 'var(--space-4)' }}>
+            Hardware in progress
+          </div>
+          <h1 className="hero-title" style={{ font: 'var(--text-display-1)', letterSpacing: 'var(--tracking-display)', color: 'var(--white)',
+                       margin: 0, maxWidth: '18ch' }}>
+            Gadgets built in the open.
+          </h1>
+          <p style={{ font: 'var(--text-body-lg)', color: 'rgba(255,255,255,0.82)', maxWidth: 'var(--measure)',
+                      marginTop: 'var(--space-6)' }}>
+            One bench, one build at a time. Every print, every part number, every failure — documented as it happens, not cleaned up after.
+          </p>
+          <div className="hero-actions" style={{ display: 'flex', gap: 'var(--space-3)', marginTop: 'var(--space-8)' }}>
+            <Button variant="invert" onClick={() => document.getElementById('social').scrollIntoView({ behavior: 'smooth' })}>
+              Follow the build →
+            </Button>
+            <Button variant="ghost" style={{ color: 'var(--white)' }}
+                    onClick={() => document.getElementById('subscribe').scrollIntoView({ behavior: 'smooth' })}>
+              Get the log by email
+            </Button>
+          </div>
+        </div>
+      </section>
+      <Rule tone="ink" />
+
+      {/* about */}
+      <section className="about-grid section-pad" style={{ maxWidth: 'var(--page-max)', margin: '0 auto', padding: 'var(--space-18) var(--space-8)',
+                        display: 'grid', gridTemplateColumns: '280px 1fr', gap: 'var(--space-12)' }}>
+        <div className="stripe-ph about-photo" style={{ aspectRatio: '1', width: '100%' }}>bench photo<br/>desk, mid-build</div>
+        <div>
+          <div style={{ font: 'var(--text-label)', letterSpacing: 'var(--tracking-label)', textTransform: 'uppercase',
+                        color: 'var(--text-muted)', marginBottom: 'var(--space-3)' }}>01 — about</div>
+          <h2 className="h1-resp" style={{ font: 'var(--text-h1)', letterSpacing: 'var(--tracking-display)', margin: 0, color: 'var(--text-primary)' }}>
+            One maker, no team, no product marketing.
+          </h2>
+          <p style={{ font: 'var(--text-body)', color: 'var(--text-secondary)', maxWidth: 'var(--measure)', marginTop: 'var(--space-4)' }}>
+            hw.i.p is a solo build log — enclosures, sensors, jigs, whatever's on the bench this week. Nine parts, two of them wrong, is a normal Tuesday. The failures stay in the post.
+          </p>
+          <div style={{ display: 'flex', gap: 'var(--space-2)', marginTop: 'var(--space-6)' }}>
+            <Tag tone="tint">112 posts</Tag>
+            <Tag tone="outline">9 builds</Tag>
+          </div>
+        </div>
+      </section>
+      <Rule tone="light" />
+
+      {/* social */}
+      <section id="social" className="section-pad" style={{ maxWidth: 'var(--page-max)', margin: '0 auto', padding: 'var(--space-18) var(--space-8)' }}>
+        <div style={{ font: 'var(--text-label)', letterSpacing: 'var(--tracking-label)', textTransform: 'uppercase',
+                      color: 'var(--text-muted)', marginBottom: 'var(--space-3)' }}>02 — follow</div>
+        <h2 className="h1-resp" style={{ font: 'var(--text-h1)', letterSpacing: 'var(--tracking-display)', margin: 0, color: 'var(--text-primary)' }}>
+          Where the builds get posted.
+        </h2>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 0, marginTop: 'var(--space-8)', border: '2px solid var(--border-strong)' }}>
+          {SOCIALS.map((s, i) => (
+            <a key={s.href} href={s.href} target="_blank" rel="noreferrer" style={{ textDecoration: 'none' }}>
+              <div className="social-row" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                            padding: 'var(--space-5) var(--space-6)',
+                            borderTop: i ? '1px solid var(--border-hairline)' : 'none' }}>
+                <div>
+                  <div style={{ font: 'var(--text-label)', letterSpacing: 'var(--tracking-label)', textTransform: 'uppercase', color: 'var(--text-muted)' }}>
+                    {s.label}
+                  </div>
+                  <div className="social-handle" style={{ font: 'var(--text-h2)', color: 'var(--text-primary)', marginTop: 4 }}>{s.handle}</div>
+                </div>
+                <Icon name="arrow-up-right" size={20} />
+              </div>
+            </a>
+          ))}
+        </div>
+      </section>
+      <Rule tone="light" />
+
+      {/* newsletter */}
+      <section id="subscribe" className="section-pad" style={{ background: 'var(--surface-invert)', padding: 'var(--space-18) var(--space-8)' }}>
+        <div className="newsletter-grid" style={{ maxWidth: 'var(--page-max)', margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr auto', gap: 'var(--space-10)', alignItems: 'end' }}>
+          <div>
+            <div style={{ font: 'var(--text-label)', letterSpacing: 'var(--tracking-label)', textTransform: 'uppercase',
+                          color: 'rgba(255,255,255,0.68)', marginBottom: 'var(--space-3)' }}>03 — the log</div>
+            <h2 className="h1-resp" style={{ font: 'var(--text-h1)', letterSpacing: 'var(--tracking-display)', margin: 0, color: 'var(--white)' }}>
+              One email per build. No spam, no hype.
+            </h2>
+          </div>
+          {sent ? (
+            <div style={{ font: 'var(--text-body)', color: 'var(--brand-on-dark)' }}>Added. Next entry lands when the next part breaks.</div>
+          ) : (
+            <form className="newsletter-form" onSubmit={(e) => { e.preventDefault(); if (email) setSent(true); }}
+                  style={{ display: 'flex', gap: 'var(--space-2)', alignItems: 'flex-end' }}>
+              <Input
+                type="email" required placeholder="you@example.com" value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                style={{ background: 'var(--white)', minWidth: 260 }}
+              />
+              <Button type="submit" variant="invert">Subscribe</Button>
+            </form>
+          )}
+        </div>
+      </section>
+
+      {/* footer */}
+      <footer className="site-footer" style={{ maxWidth: 'var(--page-max)', margin: '0 auto', padding: 'var(--space-8)',
+                       display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <Wordmark size={24} />
+        <div style={{ font: 'var(--text-mono)', color: 'var(--text-muted)' }}>hwip.vejas.zip</div>
+      </footer>
+    </div>
+  );
+}
+ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(App));
+</script>
+<script>
+  var src = document.getElementById('app-src').textContent;
+  var out = Babel.transform(src, { presets: [['react', { runtime: 'classic' }]] }).code;
+  (0, eval)(out);
+</script>
+</body>
+</html>
