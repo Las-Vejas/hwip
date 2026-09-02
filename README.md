@@ -168,7 +168,7 @@ npx wrangler d1 execute hwip-orders --remote \
 ## Before going live
 
 - [ ] Replace the three placeholder pieces with real work and photographs
-- [ ] Set `ORDER_TO_EMAIL` and the Resend key, then send yourself a test enquiry
+- [x] ~~Set `ORDER_TO_EMAIL` and the Resend key~~ — done; a test enquiry sent and arrived
 - [ ] Confirm the lead times quoted on the piece pages are current
 - [ ] Consider a dedicated 1200×630 share image; link previews currently use the 1000×1000
       profile mark
